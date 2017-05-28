@@ -167,7 +167,6 @@ public class ActivityMapa extends AppCompatActivity {
 
         mScaleBarOverlay = new ScaleBarOverlay(mMapView);
         mScaleBarOverlay.setCentred(true);
-//play around with these values to get the location on screen in the right place for your applicatio
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
         mMapView.getOverlays().add(this.mScaleBarOverlay);
 
