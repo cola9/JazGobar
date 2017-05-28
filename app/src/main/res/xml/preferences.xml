@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Sync Information"
+        android:key="sync_category">
+
+        <CheckBoxPreference
+            android:key="cb_perform_sync"
+            android:summary="Enable or disable data sync"
+            android:title="Enable Auto Sync"
+            android:defaultValue="true"/>
+
+        <ListPreference
+            android:key="lp_sync_interval"
+            android:title="Sync interval"
+            android:summary="%s"
+            android:defaultValue="1000"
+            android:entries="@array/updateInterval"
+            android:entryValues="@array/updateIntervalValues"
+            android:dependency="cb_perform_sync"/>
+
+        <ListPreference
+            android:key="lp_location_interval"
+            android:title="Location update interval"
+            android:summary="%s"
+            android:defaultValue="1000"
+            android:entries="@array/updateLocationInterval"
+            android:entryValues="@array/updateLocationIntervalValues"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Personal Informations"
+        android:key="personal_category">
+
+
+        <EditTextPreference
+            android:key="et_full_name"
+            android:title="Name"
+            android:summary="Enter Your Name"
+            android:dialogTitle="Your Name"
+            android:dialogMessage="Enter Your Complete Name"
+            android:defaultValue=""
+            android:inputType="textCapWords"/>
+
+        <EditTextPreference
+            android:key="et_email_address"
+            android:title="Email Address"
+            android:summary="Enter Your Email Address"
+            android:dialogTitle="Enter Your Email Address"
+            android:dialogMessage="Enter Your Email Address"
+            android:defaultValue=""
+            android:inputType="textEmailAddress"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="Customisations"
+        android:key="custom_category">
+
+
+        <RingtonePreference
+            android:key="notification_ringtone"
+            android:title="Notification Ringtone"
+            android:summary="Customise Notification Ringtone for you"
+            android:dialogTitle="Notification Ringtone"
+            android:dialogMessage="Customise Notification Ringtone for you"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Izberi gobe za prikaz"
+        android:key="moje_gobe">
+        <ListPreference
+            android:key="lp_moje_gobe"
+            android:title="Gobe"
+            android:summary="%s"
+            />
+        <ListPreference
+            android:key="lp_razdalja_gob"
+            android:title="Razdalja"
+            android:summary="%s"
+            android:defaultValue="11000"
+            android:entries="@array/RazdaljaGob"
+            android:entryValues="@array/RazdaljaGobValues"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

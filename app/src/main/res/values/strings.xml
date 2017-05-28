@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">JazGobar</string>
+    <string name="title_activity_zacetna">ActivityZacetna</string>
+    <string name="poka_i_mapo">Pokaži mapo</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_delete">Delete</string>
+    <string name="action_settings">Nastavitve</string>
+    <string name="action_sort">Uredi</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="add_new_location_no_location">Za dodajanje mora biti pridobljena lokacija. Preverite pravice!</string>
+    <string name="permission_must_title">Dodeljevanje pravic</string>
+    <string name="permission_must">Za pravilno delovanje aplikacije so potrebne vse pravice. Dovoljenje za lokacijo je potrebno za pridobivanje lokacije odpadkov, dovoljenje dostopa do slik in shranjevanje je potrebno za dodajanje novih lokacij (slikanje).</string>
+    <string name="facebook_app_id">216844202163974</string>
+    <string name="user_id" />
+</resources>
