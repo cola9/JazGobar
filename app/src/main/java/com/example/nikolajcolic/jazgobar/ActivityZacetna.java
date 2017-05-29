@@ -595,7 +595,7 @@ public class ActivityZacetna extends AppCompatActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String izbranaGoba = sp.getString("lp_moje_gobe","0");
         String izbranaRazdalja = sp.getString("lp_razdalja_gob","11");
-        Toast.makeText(ActivityZacetna.this, "ALO: "+izbranaGoba, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ActivityZacetna.this, "ALO: "+izbranaGoba, Toast.LENGTH_SHORT).show();
         if(mLocation!=null){
             mAdapter = new AdapterLokacija(app.getAllUser(id_user,Integer.parseInt(izbranaGoba),Integer.parseInt(izbranaRazdalja),mLocation.getLatitude(),mLocation.getLongitude()), this);
         }else{

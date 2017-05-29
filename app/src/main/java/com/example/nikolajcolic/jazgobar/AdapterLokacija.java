@@ -203,7 +203,7 @@ public class AdapterLokacija extends RecyclerView.Adapter<AdapterLokacija.ViewHo
         else  holder.txtDis.setText(Util.getDistanceInString(ac.getLocation().getLatitude(), ac.getLocation().getLongitude(),trenutni.getX(),trenutni.getY()));
         //holder.txtFooter.setText("Footer: " + trenutni.getLatitude()+","+trenutni.getLongitude());
         //holder.txtTime.setText(Util.getTimeDiff(System.currentTimeMillis(), trenutni.getDatum()));
-        holder.txtTime.setText(DateFormat.format("dd.MM.yyyy hh:mm:ss", new Date(trenutni.getDatum())).toString());
+        holder.txtTime.setText(DateFormat.format("dd.MM.yyyy HH:mm:ss", new Date(trenutni.getDatum())).toString());
     }
     public void removeItem(int position) {
         all.getLokacijaAll().remove(position);
