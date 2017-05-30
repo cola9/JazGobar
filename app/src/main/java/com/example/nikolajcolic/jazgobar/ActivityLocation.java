@@ -8,9 +8,11 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -25,6 +27,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +58,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.R.attr.path;
 
 public class ActivityLocation extends AppCompatActivity {
@@ -79,6 +84,7 @@ public class ActivityLocation extends AppCompatActivity {
     DisplayMetrics dm;
     ArrayList<OverlayItem> items;
     private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
+    CircleImageView circleImageView;
     @Subscribe
     public void onMessageEvent(MessageEventUpdateLocation event) {
         Log.i("ActivityLocation","MessageEventUpdateLocation ");
@@ -96,6 +102,7 @@ public class ActivityLocation extends AppCompatActivity {
         edName = (EditText) findViewById(R.id.editTextName);
         tvDatum = (TextView) findViewById(R.id.textViewDatum);
         flexBoxLayout = (FlexboxLayout) findViewById(R.id.flexBoxLayout);
+        circleImageView = (CircleImageView) findViewById(R.id.circleImageView);
         stateNew = false;
         permissionGranted = new PermissionGranted(this);
         mMapView = (MapView) findViewById(R.id.map);
@@ -146,6 +153,7 @@ public class ActivityLocation extends AppCompatActivity {
             permissionGranted.checkLocationPermission();
         }
         ID ="";
+        app.all=app.getAll();
     }
 
     void setLokacija(String ID) {
@@ -167,7 +175,6 @@ public class ActivityLocation extends AppCompatActivity {
         g = app.getTestLocGoba();
         update(g);
     }*/
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -235,6 +242,7 @@ public class ActivityLocation extends AppCompatActivity {
             }else {
                 stateNew = false;
                 setLokacija(extras.getString(DataAll.LOKACIJA_ID));
+                circleImageView.setVisibility(View.VISIBLE);
             }
         } else {
             System.out.println("Nič ni v extras!");
@@ -255,30 +263,55 @@ public class ActivityLocation extends AppCompatActivity {
         System.out.println("Prej:"+l);
         l.setIme(edName.getText().toString());
         System.out.println("Po:"+l);
+        if(!stateNew){
+            //app.all=app.getAll();
+            app.all.getLocation(ID).setIme(edName.getText().toString());
+        }
         app.save();
     }
     public void onSave(View v){
-        if(stateNew) {
-            app.all = app.getAll();
-        }
-        for (TagTextView tv:gobe) {
-            tv.updateObjectState(); //sets LogationTag
+        if(!edName.getText().toString().equals("Poimenuj ") && stIzbranihGob(gobe)!=0){
+            if(stateNew) {
+                app.all = app.getAll();
+            }
+            for (TagTextView tv:gobe) {
+                tv.updateObjectState(); //sets LogationTag
+                if (stateNew) {
+                    app.getAll2().addNewLocationGoba(tv.getTag());
+                }
+            }
             if (stateNew) {
-                app.getAll2().addNewLocationGoba(tv.getTag());
+                app.getAll2().addLocation(l);
+                System.out.println("l:"+l);
+            }
+            save();
+            finish();
+        }else{
+            Toast.makeText(ActivityLocation.this, "Nisi vpisal imena oz. izbral gob!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public int stIzbranihGob(ArrayList<TagTextView> gobe){
+        int st=0;
+        for (TagTextView tv:gobe) {
+            if(tv.isGuiCheckState()){
+                st++;
             }
         }
-        if (stateNew) {
-            app.getAll2().addLocation(l);
-            System.out.println("l:"+l);
-        }
-        save();
-        finish();
+        return st;
     }
-    public void onMap(View v){
-        String uri = "http://maps.google.com/maps?saddr=" + 46.362644 + "," + 15.116058 + "&daddr=" + 46.559665 + "," + 15.639283;
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        intent.setPackage("com.google.android.apps.maps");
-        startActivity(intent);
+    public void onClickMapDirection(View v){
+        if(app.getLastLocation()!=null){
+            if(app.getLastLocation().getLatitude()!=l.getX() && app.getLastLocation().getLongitude()!=l.getY()){
+                String uri = "http://maps.google.com/maps?saddr=" + app.getLastLocation().getLatitude() + "," + app.getLastLocation().getLongitude() + "&daddr=" + l.getX() + "," + l.getY();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }else{
+                Toast.makeText(ActivityLocation.this, "Ste ze na tej lokaciji!", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(ActivityLocation.this, "Nimate prižgane lokacije!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void update(Lokacija l) {
@@ -296,7 +329,11 @@ public class ActivityLocation extends AppCompatActivity {
 
 
         mMyLocationOverlay.removeAllItems();
-        mMyLocationOverlay.addItem(new OverlayItem(l.getIme(),l.getX()+";"+l.getY(),startPoint));
+        OverlayItem olItem = new OverlayItem(l.getIme(),l.getX()+";"+l.getY(),startPoint);
+        Drawable newMarker = this.getResources().getDrawable(R.drawable.marker_gobe_64);
+        olItem.setMarker(newMarker);
+        //items.add(olItem);
+        mMyLocationOverlay.addItem(olItem);
         mapController.setCenter(startPoint);
         /*File imgFile = new  File(l.getSlika());
         if(imgFile.exists()){
@@ -319,6 +356,22 @@ public class ActivityLocation extends AppCompatActivity {
 
             //   Picasso.with(ac).load(trenutni.getFileName()).into(holder.iv);
             // holder.iv.setImageDrawable(this.ac.getDrawable(R.drawable.ic_airline_seat_recline_extra_black_24dp));
+        }else{
+            if(l.getSlika().equals("goba1")){
+                ivSlika.setImageResource(R.drawable.goba1);
+            }else if(l.getSlika().equals("goba2")){
+                ivSlika.setImageResource(R.drawable.goba2);
+            }else if(l.getSlika().equals("goba3")){
+                ivSlika.setImageResource(R.drawable.goba3);
+            }else if(l.getSlika().equals("goba4")){
+                ivSlika.setImageResource(R.drawable.goba4);
+            }else if(l.getSlika().equals("goba5")){
+                ivSlika.setImageResource(R.drawable.goba5);
+            }else if(l.getSlika().equals("goba6")){
+                ivSlika.setImageResource(R.drawable.goba6);
+            }else{
+                ivSlika.setImageResource(R.drawable.goba);
+            }
         }
     }
 }

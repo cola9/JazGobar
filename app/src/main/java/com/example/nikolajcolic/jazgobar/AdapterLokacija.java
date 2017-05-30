@@ -165,7 +165,21 @@ public class AdapterLokacija extends RecyclerView.Adapter<AdapterLokacija.ViewHo
             // holder.iv.setImageDrawable(this.ac.getDrawable(R.drawable.ic_airline_seat_recline_extra_black_24dp));
         }
         else {
-            holder.iv.setImageResource(R.drawable.goba);
+            if(trenutni.getSlika().equals("goba1")){
+                holder.iv.setImageResource(R.drawable.goba1);
+            }else if(trenutni.getSlika().equals("goba2")){
+                holder.iv.setImageResource(R.drawable.goba2);
+            }else if(trenutni.getSlika().equals("goba3")){
+                holder.iv.setImageResource(R.drawable.goba3);
+            }else if(trenutni.getSlika().equals("goba4")){
+                holder.iv.setImageResource(R.drawable.goba4);
+            }else if(trenutni.getSlika().equals("goba5")){
+                holder.iv.setImageResource(R.drawable.goba5);
+            }else if(trenutni.getSlika().equals("goba6")){
+                holder.iv.setImageResource(R.drawable.goba6);
+            }else{
+                holder.iv.setImageResource(R.drawable.goba);
+            }
         }
         /*if (position%2==1) {
             holder.txtHeader.setTextColor(Color.BLUE);

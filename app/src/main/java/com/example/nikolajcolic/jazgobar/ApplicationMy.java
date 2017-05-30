@@ -21,9 +21,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created by nikolajcolic on 28/02/17.
- */
 
 public class ApplicationMy extends Application {
     public static SharedPreferences preferences;

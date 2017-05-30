@@ -3,6 +3,7 @@ package com.example.nikolajcolic.jazgobar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -91,7 +92,10 @@ public class ActivityMapa extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(l.getX(), l.getY());
 
         mMyLocationOverlay.removeAllItems();
-        mMyLocationOverlay.addItem(new OverlayItem(l.getIme(),l.getX()+";"+l.getY(),startPoint));
+        OverlayItem olItem = new OverlayItem(l.getIme(),l.getX()+";"+l.getY(),startPoint);
+        Drawable newMarker = this.getResources().getDrawable(R.drawable.marker_gobe_64);
+        olItem.setMarker(newMarker);
+        mMyLocationOverlay.addItem(olItem);
         mapController.setCenter(startPoint);
 
         //update(l);
@@ -117,20 +121,30 @@ public class ActivityMapa extends AppCompatActivity {
 
             List<Lokacija> lokacijaList = app.getAllUserList(id_user);
             for(int x=0;x<lokacijaList.size();x++){
-                items.add(new OverlayItem(lokacijaList.get(x).getIme(), "opis", new GeoPoint(lokacijaList.get(x).getX(),lokacijaList.get(x).getY())));
+                OverlayItem olItem = new OverlayItem(lokacijaList.get(x).getIme(), "opis", new GeoPoint(lokacijaList.get(x).getX(),lokacijaList.get(x).getY()));
+                Drawable newMarker = this.getResources().getDrawable(R.drawable.marker_gobe_64);
+                olItem.setMarker(newMarker);
+                items.add(olItem);
             }
             GeoPoint startPoint=null;
+            mLocation=app.getLastLocation();
+            ArrayList<OverlayItem> mItems = new ArrayList<OverlayItem>();
             if(mLocation!=null){
-                items.add(new OverlayItem("Tu si", "opis", new GeoPoint(mLocation.getLatitude(), mLocation.getLongitude())));
+                OverlayItem olItem = new OverlayItem("Tu si", "", new GeoPoint(mLocation.getLatitude(), mLocation.getLongitude()));
+                Drawable newMarker = this.getResources().getDrawable(R.drawable.marker_position_64);
+                olItem.setMarker(newMarker);
+                mItems.add(olItem);
+                //items.add(new OverlayItem("Tu si", "opis", new GeoPoint(mLocation.getLatitude(), mLocation.getLongitude())));
                 startPoint = new GeoPoint(mLocation.getLatitude(), mLocation.getLongitude());
             }else{
                 startPoint = new GeoPoint(46.25139,15.2568);
             }
             IMapController mapController = mMapView.getController();
-            mapController.setZoom(10);
+            mapController.setZoom(20);
             mapController.setCenter(startPoint);
             mMyLocationOverlay.removeAllItems();
             mMyLocationOverlay.addItems(items);
+            mMyLocationOverlay.addItems(mItems);
             mapController.setCenter(startPoint);
         }
 

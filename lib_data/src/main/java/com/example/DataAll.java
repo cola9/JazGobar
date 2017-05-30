@@ -28,8 +28,10 @@ public class DataAll {
     public static String getHtmlFormatedLocationTagList(ArrayList<LokacijaGoba> l) {
         StringBuffer sb= new StringBuffer();
         for (int i=0; i<l.size(); i++) {
-            sb.append(l.get(i).getHtmlFromat());
-            if (i<(l.size()-1)) sb.append(", ");
+            if(l.get(i).getGoba().isChecked()){
+                sb.append(l.get(i).getHtmlFromat());
+                if (i<(l.size()-1)) sb.append(", ");
+            }
         }
         return sb.toString();
     }
@@ -87,17 +89,19 @@ public class DataAll {
         da.userMe = new User("zdravko.colic@student.um.si","Zile","incorrect");
         //da.userMe = new User("nikolaj.colic@student.um.si","NikolajC","incorrect");
         Lokacija tmp;
-        tmp = da.addLocation("FERI", 46.412644,15.3816058, "",true);
+        tmp = da.addLocation("Pri kapeli", 46.412644,15.3816058, "goba1",true);
         da.addLocationScenarijA(tmp);
         da.userMe = new User("nikolaj.colic@student.um.si","NikolajC","incorrect");
-        tmp = da.addLocation("Velenje Tomšičeva cesta 5", 46.362644,15.116058, "",false);
+        tmp = da.addLocation("Zelo veliko gob", 46.362644,15.116058, "goba2",false);
         da.addLocationScenarijA(tmp);
-        tmp = da.addLocation("Šola", 46.559644,15.639058, "",false);
+        tmp = da.addLocation("Malo gob", 46.559644,15.639058, "goba3",false);
         da.addLocationScenarijA(tmp);
-        tmp = da.addLocation("Igrišče", 46.462644,15.216058, "",false);
+        tmp = da.addLocation("Na prostem", 46.462644,15.216058, "goba4",false);
         da.addLocationScenarijA(tmp);
         //da.userMe = new User("zdravko.colic@student.um.si","Zile","incorrect");
-        tmp = da.addLocation("Maribor Smetanova ulica 17", 46.442644,15.396058, "",false);
+        tmp = da.addLocation("Globko v gozdu", 46.442644,15.396058, "goba5",false);
+        da.addLocationScenarijA(tmp);
+        tmp = da.addLocation("Blizu gozda", 46.449644,15.396058, "goba6",false);
         da.addLocationScenarijA(tmp);
         da.gobaList.getGoba(1).setChecked(true);
         return da;
@@ -108,6 +112,15 @@ public class DataAll {
     public Lokacija getLocation(int i) {
         //return lokacijaList.get(lokacijaList.keys().nextElement());
         return lokacijaList.get(i);
+    }
+    public Lokacija getLocation(String ID) {
+        //return lokacijaList.get(lokacijaList.keys().nextElement());
+        for(int x=0;x<lokacijaList.size();x++){
+            if(lokacijaList.get(x).getId().equals(ID)){
+                return lokacijaList.get(x);
+            }
+        }
+        return  null;
     }
     public List<Lokacija> getLokacijaAll() {
        // ArrayList<Lokacija> l = new ArrayList<>();

@@ -41,5 +41,6 @@ dependencies {
     compile 'com.karumi:dexter:4.1.0'
     compile 'com.google.android:flexbox:0.2.6'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
     testCompile 'junit:junit:4.12'
 }

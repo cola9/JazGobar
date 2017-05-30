@@ -112,7 +112,7 @@ public class ActivityZacetna extends AppCompatActivity {
         mLocation = event.getM();
         mAdapter.setLastLocation(mLocation);
         fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-        //podatki();
+        podatki();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +214,8 @@ public class ActivityZacetna extends AppCompatActivity {
 
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
-                Lokacija tmp = app.getAll().getLocation(viewHolder.getAdapterPosition());
+                //podatki();
+                Lokacija tmp = app.getAll2().getLocation(viewHolder.getAdapterPosition());
                 if (tmp.getIdUser().equals(id_user)) {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
@@ -307,7 +308,7 @@ public class ActivityZacetna extends AppCompatActivity {
 
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
-                Lokacija tmp = app.getAll().getLocation(viewHolder.getAdapterPosition());
+                Lokacija tmp = app.getAll2().getLocation(viewHolder.getAdapterPosition());
                 if (tmp.getIdUser().equals(id_user)) {
                     if(!tmp.getDeli())
                     {
@@ -595,7 +596,6 @@ public class ActivityZacetna extends AppCompatActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String izbranaGoba = sp.getString("lp_moje_gobe","0");
         String izbranaRazdalja = sp.getString("lp_razdalja_gob","11");
-        //Toast.makeText(ActivityZacetna.this, "ALO: "+izbranaGoba, Toast.LENGTH_SHORT).show();
         if(mLocation!=null){
             mAdapter = new AdapterLokacija(app.getAllUser(id_user,Integer.parseInt(izbranaGoba),Integer.parseInt(izbranaRazdalja),mLocation.getLatitude(),mLocation.getLongitude()), this);
         }else{

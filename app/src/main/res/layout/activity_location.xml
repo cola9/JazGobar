@@ -75,9 +75,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3"
-        tools:layout_editor_absoluteX="115dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline4"
@@ -195,5 +193,23 @@
 
         </com.google.android.flexbox.FlexboxLayout>
     </ScrollView>
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/circleImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onClickMapDirection"
+        android:src="@drawable/direction_icon"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/myColorLine3"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

@@ -15,9 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-/**
- * Created by crepinsek on 18/03/17.
- */
 
 public class ApplicationJson {
     /* Checks if external storage is available for read and write */

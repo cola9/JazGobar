@@ -46,7 +46,7 @@ import java.util.Date;
 public class ActivityLocationReadOnly extends AppCompatActivity {
     ApplicationMy app;
     ImageView ivSlika;
-    EditText edName;
+    TextView edName;
     TextView tvLatLag;
     TextView tvDatum;
     Lokacija l;
@@ -74,7 +74,7 @@ public class ActivityLocationReadOnly extends AppCompatActivity {
         gobe = new ArrayList<>();
         ivSlika =(ImageView) findViewById(R.id.imageViewMain);
         tvLatLag = (TextView) findViewById(R.id.textViewLanLat);
-        edName = (EditText) findViewById(R.id.editTextName);
+        edName = (TextView) findViewById(R.id.editTextName);
         tvDatum = (TextView) findViewById(R.id.textViewDatum);
         flexBoxLayout = (FlexboxLayout) findViewById(R.id.flexBoxLayout);
         stateNew = false;
@@ -169,7 +169,20 @@ public class ActivityLocationReadOnly extends AppCompatActivity {
         stopService(new Intent(app, GPSTracker.class));//start service
         super.onPause();
     }
-
+    public void onClickMapDirection(View v){
+        if(app.getLastLocation()!=null){
+            if(app.getLastLocation().getLatitude()!=l.getX() && app.getLastLocation().getLongitude()!=l.getY()){
+                String uri = "http://maps.google.com/maps?saddr=" + app.getLastLocation().getLatitude() + "," + app.getLastLocation().getLongitude() + "&daddr=" + l.getX() + "," + l.getY();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }else{
+                Toast.makeText(ActivityLocationReadOnly.this, "Ste ze na tej lokaciji!", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(ActivityLocationReadOnly.this, "Nimate prižgane lokacije!", Toast.LENGTH_SHORT).show();
+        }
+    }
     public void update(Lokacija l) {
         tvLatLag.setText(l.getX()+" "+l.getY());
         edName.setText(l.getIme());
@@ -201,6 +214,22 @@ public class ActivityLocationReadOnly extends AppCompatActivity {
                     // To prevent fade animation
                     .noFade()
                     .into(ivSlika);
+        }else{
+            if(l.getSlika().equals("goba1")){
+                ivSlika.setImageResource(R.drawable.goba1);
+            }else if(l.getSlika().equals("goba2")){
+                ivSlika.setImageResource(R.drawable.goba2);
+            }else if(l.getSlika().equals("goba3")){
+                ivSlika.setImageResource(R.drawable.goba3);
+            }else if(l.getSlika().equals("goba4")){
+                ivSlika.setImageResource(R.drawable.goba4);
+            }else if(l.getSlika().equals("goba5")){
+                ivSlika.setImageResource(R.drawable.goba5);
+            }else if(l.getSlika().equals("goba6")){
+                ivSlika.setImageResource(R.drawable.goba6);
+            }else{
+                ivSlika.setImageResource(R.drawable.goba);
+            }
         }
     }
 }
