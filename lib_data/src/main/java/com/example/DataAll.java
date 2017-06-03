@@ -89,10 +89,10 @@ public class DataAll {
         da.userMe = new User("zdravko.colic@student.um.si","Zile","incorrect");
         //da.userMe = new User("nikolaj.colic@student.um.si","NikolajC","incorrect");
         Lokacija tmp;
-        tmp = da.addLocation("Pri kapeli", 46.412644,15.3816058, "goba1",true);
+        tmp = da.addLocation("Pri kapeli", 46.412644,15.3816058, "goba2",true);
         da.addLocationScenarijA(tmp);
         da.userMe = new User("nikolaj.colic@student.um.si","NikolajC","incorrect");
-        tmp = da.addLocation("Zelo veliko gob", 46.362644,15.116058, "goba2",false);
+        tmp = da.addLocation("Zelo veliko gob", 46.362644,15.116058, "goba1",false);
         da.addLocationScenarijA(tmp);
         tmp = da.addLocation("Malo gob", 46.559644,15.639058, "goba3",false);
         da.addLocationScenarijA(tmp);
