@@ -1,6 +1,7 @@
 package com.example.nikolajcolic.jazgobar;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -136,6 +137,7 @@ public class ActivityZacetna extends AppCompatActivity {
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
+
 
         podatki();
         // use a linear layout manager
@@ -730,12 +732,14 @@ public class ActivityZacetna extends AppCompatActivity {
                         SharedPreferences.Editor editor =  sharedPreferences.edit();
                         editor.putString("token",null);
                         editor.putString("user_id",null);
+                        editor.putString("et_score",null);
                         editor.putLong("expires",0);
                         editor.putBoolean("basicLogin",false);
                         editor.commit();
                         app.Odjava();
                         Intent i = new Intent(getBaseContext(), ActivityLogin.class);
                         startActivity(i);
+                        finish();
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:

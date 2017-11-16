@@ -264,14 +264,14 @@ public class ActivityLogin extends AppCompatActivity {
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
                     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    final String username = sp.getString("et_full_name", null);
-                    String user=username;
-                    while (user==null){
-                        user = sp.getString("et_full_name", null);
+                    String fb = sp.getString("fb", null);
+                    while (fb==null){
+                        fb = sp.getString("fb", null);
                     }
+                    final String username = sp.getString("et_full_name", null);
                     final String email = sp.getString("et_email_address", "");
                     JSONObject postDataParams = new JSONObject();
-                    postDataParams.put("username", user);
+                    postDataParams.put("username", username);
                     postDataParams.put("email", email);
                     con.setReadTimeout(15000 /* milliseconds */);
                     con.setConnectTimeout(15000 /* milliseconds */);
@@ -322,7 +322,10 @@ public class ActivityLogin extends AppCompatActivity {
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());//getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor =  sharedPreferences.edit();
                     String score = split[1].replaceAll("\\D+","");
+                    editor.putString("et_score",null);
                     editor.putString("et_score",score);
+                    editor.putString("fb","");
+                    editor.commit();
                     Intent i = new Intent(getBaseContext(), ActivityZacetna.class);
                     i.putExtra("USER_ID",user_id);
                     startActivity(i);
@@ -353,6 +356,8 @@ public class ActivityLogin extends AppCompatActivity {
                 //bundle.putString("gender", object.getString("gender"));
 
             editor.putString("et_full_name","");
+            editor.putString("fb","");
+            editor.putString("fb","da");
             editor.putString("et_email_address","");
             editor.putString("et_full_name",name);
             editor.putString("et_email_address",email);
