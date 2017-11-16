@@ -52,6 +52,14 @@
             android:dialogMessage="Enter Your Email Address"
             android:defaultValue=""
             android:inputType="textEmailAddress"/>
+        <EditTextPreference
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:defaultValue=""
+            android:key="et_score"
+            android:title="Score"/>
 
     </PreferenceCategory>
 

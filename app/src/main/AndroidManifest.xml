@@ -36,7 +36,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-            <!--    <action android:name="android.intent.action.MAIN" />-->
+
+                <!-- <action android:name="android.intent.action.MAIN" /> -->
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -57,23 +58,37 @@
             android:name=".GPSTracker"
             android:exported="false"
             android:stopWithTask="true" />
-        <!--  android:process=":my_gps_tracker"/> this will run Service in seperate process in that case use Brod -->
+        <!-- android:process=":my_gps_tracker"/> this will run Service in seperate process in that case use Brod -->
 
         <activity
             android:name=".ActivityMapa"
             android:launchMode="singleInstance" />
         <activity android:name=".ActivityMySettings" />
-        <activity android:name=".ActivityLogin">
+        <activity
+            android:name=".ActivityLogin"
+            android:theme="@style/AppTheme.Dark">
             <intent-filter>
-
-               <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      <!--  <meta-data android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_app_id"/> -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <!--
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+        android:value="@string/facebook_app_id"/>
+        -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <provider android:authorities="com.facebook.app.FacebookContentProvider216844202163974"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+        <activity
+            android:name=".ActivityRegister"
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".ActivitySlikeGob" />
+        <activity android:name=".ActivitySporneSlikeGob" />
+        <activity android:name=".ActivityGalerija"></activity>
     </application>
 
 </manifest>

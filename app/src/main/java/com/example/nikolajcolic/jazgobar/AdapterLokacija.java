@@ -118,18 +118,18 @@ public class AdapterLokacija extends RecyclerView.Adapter<AdapterLokacija.ViewHo
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
-    private static void startDView(Lokacija tmp, Activity ac, String id_user) {
+    private static void startDView(Lokacija tmp, Activity ac) {
         //  System.out.println(name+":"+position);
         //Intent i = new Intent(ac.getBaseContext(), ActivityLocation.class);
-        if (tmp.getIdUser().equals(id_user)) {
+        //if (tmp.getIdUser().equals(id_user)) {
             Intent i = new Intent(ac.getBaseContext(), ActivityLocation.class);
             i.putExtra(DataAll.LOKACIJA_ID, tmp.getId());
             ac.startActivity(i);
-        }else{
+        /*}else{
             Intent i = new Intent(ac.getBaseContext(), ActivityLocationReadOnly.class);
             i.putExtra(DataAll.LOKACIJA_ID, tmp.getId());
             ac.startActivity(i);
-        }
+        }*/
 
     }
     @Override
@@ -172,9 +172,9 @@ public class AdapterLokacija extends RecyclerView.Adapter<AdapterLokacija.ViewHo
             }else if(trenutni.getSlika().equals("goba3")){
                 holder.iv.setImageResource(R.drawable.goba3);
             }else if(trenutni.getSlika().equals("goba4")){
-                holder.iv.setImageResource(R.drawable.goba4);
+                //holder.iv.setImageResource(R.drawable.goba4);
             }else if(trenutni.getSlika().equals("goba5")){
-                holder.iv.setImageResource(R.drawable.goba5);
+                //holder.iv.setImageResource(R.drawable.goba5);
             }else if(trenutni.getSlika().equals("goba6")){
                 holder.iv.setImageResource(R.drawable.goba6);
             }else{
@@ -209,7 +209,8 @@ public class AdapterLokacija extends RecyclerView.Adapter<AdapterLokacija.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdapterLokacija.startDView(trenutni,ac,"nikolaj.colic@student.um.si");
+                //AdapterLokacija.startDView(trenutni,ac,"nikolaj.colic@student.um.si");
+                AdapterLokacija.startDView(trenutni,ac);
             }
         });
 

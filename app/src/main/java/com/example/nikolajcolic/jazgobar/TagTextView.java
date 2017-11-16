@@ -20,6 +20,10 @@ public class TagTextView extends android.support.v7.widget.AppCompatTextView {
     LokacijaGoba goba;
     boolean guiCheckState;
 
+    public LokacijaGoba getGoba() {
+        return goba;
+    }
+
     public boolean isGuiCheckState() {
         return guiCheckState;
     }

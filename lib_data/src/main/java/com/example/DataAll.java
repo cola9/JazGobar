@@ -59,8 +59,8 @@ public class DataAll {
         lokacijaList = new ArrayList<>();
         lokacijaGobaList = new ArrayList<>();
     }
-    public Lokacija addLocation(String name, double x, double y, String im,boolean deli) {
-        Lokacija tmp = new Lokacija(name, x,y,im,System.currentTimeMillis(),true,userMe.getIdUser());
+    public Lokacija addLocation(String name, double x, double y, String im,boolean deli, String ikonaVremena, String vlaznost, String pritisk) {
+        Lokacija tmp = new Lokacija(name, x,y,im,System.currentTimeMillis(),true,userMe.getIdUser(), ikonaVremena, vlaznost, pritisk);
         //lokacijaList.put(tmp.getId(),tmp);
         tmp.setDeli(deli);
         lokacijaList.add(tmp);
@@ -86,22 +86,21 @@ public class DataAll {
     public static DataAll scenarijA() {
         DataAll da = new DataAll();
         Date danes = new Date();
-        da.userMe = new User("zdravko.colic@student.um.si","Zile","incorrect");
+        da.userMe = new User("nikolaj.colic@student.um.si","NikolajC","incorrect");
         //da.userMe = new User("nikolaj.colic@student.um.si","NikolajC","incorrect");
         Lokacija tmp;
-        tmp = da.addLocation("Pri kapeli", 46.412644,15.3816058, "goba2",true);
+        tmp = da.addLocation("Pri kapeli", 46.412644,15.3816058, "goba2",true, "&#xf01e;", "53%", "1009 hPa");
         da.addLocationScenarijA(tmp);
-        da.userMe = new User("nikolaj.colic@student.um.si","NikolajC","incorrect");
-        tmp = da.addLocation("Zelo veliko gob", 46.362644,15.116058, "goba1",false);
+        tmp = da.addLocation("Zelo veliko gob", 46.362644,15.116058, "goba1",false, "&#xf01c;", "43%", "1019 hPa");
         da.addLocationScenarijA(tmp);
-        tmp = da.addLocation("Malo gob", 46.559644,15.639058, "goba3",false);
+        tmp = da.addLocation("Malo gob", 46.559644,15.639058, "goba3",false, "&#xf014;", "63%", "1003 hPa");
         da.addLocationScenarijA(tmp);
-        tmp = da.addLocation("Na prostem", 46.462644,15.216058, "goba4",false);
+        tmp = da.addLocation("Na prostem", 46.462644,15.216058, "goba4",false, "&#xf013;", "59%", "1012 hPa");
         da.addLocationScenarijA(tmp);
         //da.userMe = new User("zdravko.colic@student.um.si","Zile","incorrect");
-        tmp = da.addLocation("Globko v gozdu", 46.442644,15.396058, "goba5",false);
+        tmp = da.addLocation("Globko v gozdu", 46.442644,15.396058, "goba5",false, "&#xf01b;", "49%", "1005 hPa");
         da.addLocationScenarijA(tmp);
-        tmp = da.addLocation("Blizu gozda", 46.449644,15.396058, "goba6",false);
+        tmp = da.addLocation("Blizu gozda", 46.449644,15.396058, "goba6",false, "&#xf019;", "51%", "1014 hPa");
         da.addLocationScenarijA(tmp);
         da.gobaList.getGoba(1).setChecked(true);
         return da;
@@ -131,9 +130,9 @@ public class DataAll {
     public int getLocationSize() {
         return lokacijaList.size();
     }
-    public Lokacija getNewLocation(double d1, double d2) {
+    public Lokacija getNewLocation(double d1, double d2, String ikonaVremena, String vlaznost, String pritisk) {
         Lokacija l;
-        l = addLocation("N/A", d1, d2, "",false);
+        l = addLocation("N/A", d1, d2, "",false, ikonaVremena, vlaznost, pritisk);
         Goba g;
         g = new Goba("N/A");
         gobaList.dodajGobo(g);

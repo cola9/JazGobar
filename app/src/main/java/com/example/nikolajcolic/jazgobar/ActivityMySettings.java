@@ -1,6 +1,8 @@
 package com.example.nikolajcolic.jazgobar;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -17,8 +19,18 @@ import com.example.Lokacija;
 import com.example.nikolajcolic.jazgobar.eventbus.MessageEventSettingsLocationUpdateInterval;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +40,7 @@ public class ActivityMySettings extends AppCompatPreferenceActivity {
     public static final String LOCATION_INTERVAL_KEY="lp_location_interval";
     static ApplicationMy app;
 
+    private static final String url = "https://jazgobar.000webhostapp.com/getScore.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +49,107 @@ public class ActivityMySettings extends AppCompatPreferenceActivity {
 //            addPreferencesFromResource(R.xml.preferences); //TODO if this test and implement other logic like fragment has
 //        }else {
            // PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-            getFragmentManager().beginTransaction().replace(android.R.id.content,  new PrefsFragment()).commit();
 
-            app = (ApplicationMy)getApplication();//dodano
+            getScore(url);
 //        }
 
 
     }
+    public String getPostDataString(JSONObject params) throws Exception {
 
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        Iterator<String> itr = params.keys();
+
+        while(itr.hasNext()){
+
+            String key= itr.next();
+            Object value = params.get(key);
+
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(key, "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+
+        }
+        return result.toString();
+    }
+    private void getScore(String url){
+        class GetScore extends AsyncTask<String,Void,String> {
+            ProgressDialog loading;
+            @Override
+            protected String doInBackground(String... params) {
+
+                BufferedReader bufferedReader = null;
+                String uri = params[0];
+                try {
+                    URL url = new URL(uri);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    final String username = sp.getString("et_full_name", null);
+                    JSONObject postDataParams = new JSONObject();
+                    postDataParams.put("username", username);
+                    con.setReadTimeout(15000 /* milliseconds */);
+                    con.setConnectTimeout(15000 /* milliseconds */);
+                    con.setRequestMethod("POST");
+                    con.setDoInput(true);
+                    con.setDoOutput(true);
+
+                    OutputStream os = con.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(os, "UTF-8"));
+                    writer.write(getPostDataString(postDataParams));
+
+                    writer.flush();
+                    writer.close();
+                    os.close();
+
+                    StringBuilder sb = new StringBuilder();
+
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String json;
+                    while ((json = bufferedReader.readLine()) != null) {
+                        sb.append(json + "\n");
+                    }
+
+                    //return sb.toString().trim();
+                    return sb.toString();
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(ActivityMySettings.this,"Dobivam podatke...","Please wait...",true,true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                //imageView.setImageBitmap(bitmap);
+                String score = s.replaceAll("\\D+","");
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());//getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor =  sharedPreferences.edit();
+                editor.putString("et_score",score);
+                editor.commit();
+                getFragmentManager().beginTransaction().replace(android.R.id.content,  new PrefsFragment()).commit();
+
+                app = (ApplicationMy)getApplication();//dodano
+            }
+        }
+        GetScore gi = new GetScore();
+        gi.execute(url);
+    }
 
     public static class PrefsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
         private static final String TAG = PrefsFragment.class.getSimpleName();

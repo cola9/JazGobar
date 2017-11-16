@@ -8,6 +8,7 @@ public class Goba {
     private String id;
     private String ime;
     private boolean checked;
+
     public Goba(Goba t) {
         ime =t.getIme();
         checked = t.isChecked();

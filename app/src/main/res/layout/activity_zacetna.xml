@@ -6,7 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.example.nikolajcolic.jazgobar.ActivityZacetna">
 
-    <include layout="@layout/activity_zacetna_content" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/activity_zacetna_content" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

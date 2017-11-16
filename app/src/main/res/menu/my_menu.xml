@@ -13,6 +13,17 @@
         android:title="Slovar gob"
         app:showAsAction="never" />-->
     <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_slike_gob"
+        android:title="Slike gob"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_galerija"
+        android:title="Galerija"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_sporne_slike_gob"
+        android:title="Sporne slike gob"
+        android:visible="false"
+        app:showAsAction="never" />
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
