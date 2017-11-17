@@ -324,7 +324,7 @@ public class ActivityLogin extends AppCompatActivity {
                     String score = split[1].replaceAll("\\D+","");
                     editor.putString("et_score",null);
                     editor.putString("et_score",score);
-                    editor.putString("fb","");
+                    editor.putString("fb",null);
                     editor.commit();
                     Intent i = new Intent(getBaseContext(), ActivityZacetna.class);
                     i.putExtra("USER_ID",user_id);
@@ -356,11 +356,11 @@ public class ActivityLogin extends AppCompatActivity {
                 //bundle.putString("gender", object.getString("gender"));
 
             editor.putString("et_full_name","");
-            editor.putString("fb","");
-            editor.putString("fb","da");
+            editor.putString("fb",null);
             editor.putString("et_email_address","");
             editor.putString("et_full_name",name);
             editor.putString("et_email_address",email);
+            editor.putString("fb","da");
             editor.commit();
 
         } catch (Exception e) {
