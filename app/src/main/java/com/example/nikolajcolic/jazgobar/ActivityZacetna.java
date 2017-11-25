@@ -755,7 +755,7 @@ public class ActivityZacetna extends AppCompatActivity {
         ;
         builder.show();
     }
-    public static Intent odpriFB(Context context, SharedPreferences sp) {
+    /*public static Intent odpriFB(Context context, SharedPreferences sp) {
 
         String user_id = sp.getString("user_id",null);
         try {
@@ -767,5 +767,5 @@ public class ActivityZacetna extends AppCompatActivity {
             return new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://facebook.com/profile.php?id="+user_id)); //catches and opens a url to the desired page
         }
-    }
+    }*/
 }

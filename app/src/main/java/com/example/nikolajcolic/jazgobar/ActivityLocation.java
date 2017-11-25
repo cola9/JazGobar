@@ -1,36 +1,20 @@
 package com.example.nikolajcolic.jazgobar;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -43,7 +27,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,8 +38,6 @@ import com.example.Lokacija;
 import com.example.LokacijaGoba;
 import com.example.nikolajcolic.jazgobar.eventbus.MessageEventUpdateLocation;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
@@ -66,11 +47,9 @@ import com.frosquivel.magicalcamera.Functionallities.PermissionGranted;
 import com.google.android.flexbox.FlexboxLayout;
 import com.squareup.picasso.Picasso;
 
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -79,36 +58,41 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.OverlayItem;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.Iterator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.R.attr.path;
 
 public class ActivityLocation extends AppCompatActivity {
     //weather
     public static final String UPLOAD_URL = "https://jazgobar.000webhostapp.com/AndroidUploadImage/uploadImage.php";
     public static final String UPLOAD_KEY = "image";
     TextView  vlaznost_field, pritisk_field, weatherIcon;
-    String ikonaVreme, vlaznost, pritisk;
+    String ikonaVreme, vlaznost, pritisk, temp;
+    int vlaznostH, pritiskH;
+    double tempH;
     Typeface weatherFont;
     PowerManager.WakeLock wakeLock;
     private static final String TAG = ActivityLocation.class.getSimpleName();
     private String SERVER_URL = "https://jazgobar.000webhostapp.com/UploadToServer.php";
+    private static final String getVremeUrl = "https://jazgobar.000webhostapp.com/getVreme.php";
     private String selectedFilePath;
     ProgressDialog dialog;
     ApplicationMy app;
@@ -154,10 +138,12 @@ public class ActivityLocation extends AppCompatActivity {
                     .setContentUrl(Uri.parse("www.velenje.com"))
                     .build();;*/
                     //shareDialog.show(linkContent);  // Show facebook ShareDialog
+                    File imgFile = new  File(l.getSlika());
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                     BitmapDrawable drawable = (BitmapDrawable) ivSlika.getDrawable();
-                    Bitmap bitmap = drawable.getBitmap();
+                    //Bitmap bitmap = drawable.getBitmap();
                     SharePhoto photo = new SharePhoto.Builder()
-                            .setBitmap(bitmap)
+                            .setBitmap(myBitmap)
                             .setCaption("StudyTutorial")
                             .build();
                     SharePhotoContent content = new SharePhotoContent.Builder()
@@ -201,10 +187,31 @@ public class ActivityLocation extends AppCompatActivity {
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
         mMapView.setBuiltInZoomControls(false);
         mMapView.setMultiTouchControls(false);
+
+        ivSlika.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File imgFile = new  File(l.getSlika());
+                Bitmap bitmap=null;
+                if (imgFile.exists()) {
+                    bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                }else{
+                    BitmapDrawable drawable = (BitmapDrawable) ivSlika.getDrawable();
+                    bitmap = drawable.getBitmap();
+                }
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] b = baos.toByteArray();
+
+                Intent intent = new Intent(getBaseContext(), ActivitySlika.class);
+                intent.putExtra("picture", b);
+                startActivity(intent);
+            }
+        });
         //weather
         weatherFont = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/weathericons-regular-webfont.ttf");
 
-        vlaznost_field = (TextView)findViewById(R.id.weather_vlaznost);
+        vlaznost_field = (TextView)findViewById(R.id.weather_vlaznostTemp);
         pritisk_field = (TextView)findViewById(R.id.weather_pritisk);
         weatherIcon = (TextView)findViewById(R.id.weather_icon);
         weatherIcon.setTypeface(weatherFont);
@@ -317,11 +324,11 @@ public class ActivityLocation extends AppCompatActivity {
 
                 if (mLocation != null) {
                     //asyncTask.execute(String.valueOf(mLocation.getLatitude()), String.valueOf(mLocation.getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
-                    l = new Lokacija("Poimenuj ", mLocation.getLatitude(), mLocation.getLongitude(), path, System.currentTimeMillis(), true, app.getAll().getUserMe().getIdUser(), ikonaVreme, vlaznost, pritisk);
+                    l = new Lokacija("Poimenuj ", mLocation.getLatitude(), mLocation.getLongitude(), path, System.currentTimeMillis(), true, app.getAll().getUserMe().getIdUser(), ikonaVreme, vlaznost, pritisk, temp, vlaznostH, pritiskH, tempH);
 
                 } else {
                     //asyncTask.execute(String.valueOf(app.getLastLocation().getLatitude()), String.valueOf(app.getLastLocation().getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
-                    l = new Lokacija("Poimenuj ", app.getLastLocation().getLatitude(), app.getLastLocation().getLongitude(), path, System.currentTimeMillis(), true, app.getAll().getUserMe().getIdUser(), ikonaVreme, vlaznost, pritisk);
+                    l = new Lokacija("Poimenuj ", app.getLastLocation().getLatitude(), app.getLastLocation().getLongitude(), path, System.currentTimeMillis(), true, app.getAll().getUserMe().getIdUser(), ikonaVreme, vlaznost, pritisk, temp, vlaznostH, pritiskH, tempH);
                 }
                 setGobaViewList(app.getAll().getDefultGobaLists(app.getDefultTags(), l));
                 update(l);
@@ -351,21 +358,23 @@ public class ActivityLocation extends AppCompatActivity {
                 WeatherFunction.placeIdTask asyncTask =new WeatherFunction.placeIdTask(new WeatherFunction.AsyncResponse() {
                     public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String weather_iconText, String sun_rise) {
 
-                        vlaznost_field.setText("Vlažnost: "+weather_humidity);
+                        vlaznost_field.setText("Vlažnost: "+weather_humidity+" temp: "+weather_temperature);
                         pritisk_field.setText("Pritisk: "+weather_pressure);
+                        //temp_field.setText("Temp: "+weather_temperature);
                         weatherIcon.setText(Html.fromHtml(weather_iconText));
                         ikonaVreme = weather_iconText;
                         vlaznost = weather_humidity;
                         pritisk = weather_pressure;
+                        temp = weather_temperature;
                     }
                 });
 
                 if (mLocation!=null){
                     asyncTask.execute(String.valueOf(mLocation.getLatitude()), String.valueOf(mLocation.getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
-
                 }else{
                     asyncTask.execute(String.valueOf(app.getLastLocation().getLatitude()), String.valueOf(app.getLastLocation().getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
                 }
+                getVreme(getVremeUrl);
                 stateNew = true;
                 addNewLocation();
             }else {
@@ -376,6 +385,104 @@ public class ActivityLocation extends AppCompatActivity {
         } else {
             System.out.println("Nič ni v extras!");
         }
+    }
+    public String getPostDataString(JSONObject params) throws Exception {
+
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        Iterator<String> itr = params.keys();
+
+        while(itr.hasNext()){
+
+            String key= itr.next();
+            Object value = params.get(key);
+
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(key, "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+
+        }
+        return result.toString();
+    }
+    private void getVreme(String url){
+        class GetVreme extends AsyncTask<String,Void,String> {
+            ProgressDialog loading;
+            @Override
+            protected String doInBackground(String... params) {
+
+                BufferedReader bufferedReader = null;
+                String uri = params[0];
+                try {
+                    URL url = new URL(uri);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    final String username = sp.getString("et_full_name", null);
+                    JSONObject postDataParams = new JSONObject();
+                    if (mLocation!=null){
+                        postDataParams.put("lat", String.valueOf(mLocation.getLatitude()));
+                        postDataParams.put("lon", String.valueOf(mLocation.getLongitude()));
+                    }else{
+                        postDataParams.put("lat", String.valueOf(app.getLastLocation().getLatitude()));
+                        postDataParams.put("lon", String.valueOf(app.getLastLocation().getLongitude()));
+                    }
+                    con.setReadTimeout(15000 /* milliseconds */);
+                    con.setConnectTimeout(15000 /* milliseconds */);
+                    con.setRequestMethod("POST");
+                    con.setDoInput(true);
+                    con.setDoOutput(true);
+
+                    OutputStream os = con.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(os, "UTF-8"));
+                    writer.write(getPostDataString(postDataParams));
+
+                    writer.flush();
+                    writer.close();
+                    os.close();
+
+                    StringBuilder sb = new StringBuilder();
+
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String json;
+                    while ((json = bufferedReader.readLine()) != null) {
+                        sb.append(json + "\n");
+                    }
+
+                    //return sb.toString().trim();
+                    return sb.toString();
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(ActivityLocation.this,"Dobivam podatke...","Please wait...",true,true);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                String[] parts = s.split(",");
+                vlaznostH = Integer.parseInt(parts[0].replaceAll("\\D+",""));
+                tempH = Double.valueOf(parts[1].replaceAll("[^\\d.]+|\\.(?!\\d)", ""));
+                pritiskH = Integer.parseInt(parts[2].replaceAll("\\D+",""));
+
+
+            }
+        }
+        GetVreme gv = new GetVreme();
+        gv.execute(url);
     }
     @Override
     protected void onStop() {
@@ -628,8 +735,9 @@ public class ActivityLocation extends AppCompatActivity {
             }
         }
         //weather
-        vlaznost_field.setText("Vlažnost:" + l.getVlaznost());
+        vlaznost_field.setText("Vlažnost:" + l.getVlaznost()+" temp: "+l.getTemp());
         pritisk_field.setText("Pritisk:" + l.getPritisk());
+        //temp_field.setText("Temp:" + l.getTemp());
         weatherIcon.setText(Html.fromHtml(l.getIkonaVremena()));
     }
     public int uploadFile(final String selectedFilePath) {

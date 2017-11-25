@@ -80,15 +80,19 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-        <provider android:authorities="com.facebook.app.FacebookContentProvider216844202163974"
+
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider216844202163974"
+            android:exported="true" />
+
         <activity
             android:name=".ActivityRegister"
             android:theme="@style/AppTheme.Dark" />
         <activity android:name=".ActivitySlikeGob" />
         <activity android:name=".ActivitySporneSlikeGob" />
-        <activity android:name=".ActivityGalerija"></activity>
+        <activity android:name=".ActivityGalerija" />
+        <activity android:name=".ActivitySlika"></activity>
     </application>
 
 </manifest>

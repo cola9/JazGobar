@@ -135,9 +135,9 @@ public class ApplicationMy extends Application {
     public GobaList getGobaList(){
         return all.getGobaListAll();
     }
-    public Lokacija getNewLocation(double x, double y, String ikonaVremena, String vlaznost, String pritisk) {
+    public Lokacija getNewLocation(double x, double y, String ikonaVremena, String vlaznost, String pritisk, String temp, int vlaznostH, int pritiskH, double tempH) {
 
-        return all.getNewLocation(x,y, ikonaVremena, vlaznost, pritisk);
+        return all.getNewLocation(x,y, ikonaVremena, vlaznost, pritisk, temp, vlaznostH, pritiskH, tempH);
     }
 
     public DataAll getAll() {

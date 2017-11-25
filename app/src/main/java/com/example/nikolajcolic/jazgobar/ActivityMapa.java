@@ -110,7 +110,7 @@ public class ActivityMapa extends AppCompatActivity {
         startService(new Intent(app, GPSTracker.class));//start service
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         Bundle extras = getIntent().getExtras();
-        if( (extras !=null))
+        if( (extras.getString(DataAll.LOKACIJA_ID) !=null))
         {
             ID = extras.getString(DataAll.LOKACIJA_ID);
             setLokacija(extras.getString(DataAll.LOKACIJA_ID));

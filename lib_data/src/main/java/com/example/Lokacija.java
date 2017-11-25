@@ -19,6 +19,10 @@ public class Lokacija {
     private String ikonaVremena;
     private String vlaznost;
     private String pritisk;
+    private String temp;
+    private int vlaznostH;
+    private int pritiskH;
+    private double tempH;
 
     public boolean getDeli() {
         return deli;
@@ -28,7 +32,7 @@ public class Lokacija {
         this.deli = deli;
     }
 
-    public Lokacija(String ime, double x, double y, String slika, long datum, boolean stanje, String idUser, String ikonaVremena, String vlaznost, String pritisk) {
+    public Lokacija(String ime, double x, double y, String slika, long datum, boolean stanje, String idUser, String ikonaVremena, String vlaznost, String pritisk, String temp, int vlaznostH, int pritiskH, double tempH) {
         this.id = UUID.randomUUID().toString().replaceAll("-", "");
         this.ime = ime;
         this.x = x;
@@ -41,6 +45,10 @@ public class Lokacija {
         this.ikonaVremena = ikonaVremena;
         this.vlaznost = vlaznost;
         this.pritisk = pritisk;
+        this.temp = temp;
+        this.vlaznostH = vlaznostH;
+        this.pritiskH = pritiskH;
+        this.tempH = tempH;
     }
 
     @Override
@@ -61,6 +69,39 @@ public class Lokacija {
                 '}';
     }
 
+
+    public int getVlaznostH() {
+        return vlaznostH;
+    }
+
+    public void setVlaznostH(int vlaznostH) {
+        this.vlaznostH = vlaznostH;
+    }
+
+    public int getPritiskH() {
+        return pritiskH;
+    }
+
+    public void setPritiskH(int pritiskH) {
+        this.pritiskH = pritiskH;
+    }
+
+    public double getTempH() {
+        return tempH;
+    }
+
+    public void setTempH(double tempH) {
+        this.tempH = tempH;
+    }
+
+
+    public String getTemp() {
+        return temp;
+    }
+
+    public void setTemp(String temp) {
+        this.temp = temp;
+    }
     public String getIkonaVremena() {
         return ikonaVremena;
     }

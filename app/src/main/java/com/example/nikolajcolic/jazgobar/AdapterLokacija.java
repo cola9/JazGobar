@@ -172,9 +172,9 @@ public class AdapterLokacija extends RecyclerView.Adapter<AdapterLokacija.ViewHo
             }else if(trenutni.getSlika().equals("goba3")){
                 holder.iv.setImageResource(R.drawable.goba3);
             }else if(trenutni.getSlika().equals("goba4")){
-                //holder.iv.setImageResource(R.drawable.goba4);
+                holder.iv.setImageResource(R.drawable.goba4);
             }else if(trenutni.getSlika().equals("goba5")){
-                //holder.iv.setImageResource(R.drawable.goba5);
+                holder.iv.setImageResource(R.drawable.goba5);
             }else if(trenutni.getSlika().equals("goba6")){
                 holder.iv.setImageResource(R.drawable.goba6);
             }else{

@@ -11,7 +11,7 @@ public class MyMain {
         System.out.println(g);
         User u = new User("nikolaj.colic@gmail.com","nikolaj", "nepovem");
         System.out.println(u);
-        Lokacija l = new Lokacija("Velenje Tomšičeva cesta 5", 123213213,123123123,"", System.currentTimeMillis(),true,u.getIdUser(), "&#xf01e;", "53%", "1009 hPa");
+        Lokacija l = new Lokacija("Velenje Tomšičeva cesta 5", 123213213,123123123,"", System.currentTimeMillis(),true,u.getIdUser(), "&#xf01e;", "53%", "1009 hPa", "9", 57, 1010, 9.9);
         System.out.println(l);
         GobaList gl = new GobaList();
         System.out.println(gl);

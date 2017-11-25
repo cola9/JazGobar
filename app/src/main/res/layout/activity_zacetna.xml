@@ -41,8 +41,7 @@
                 android:id="@+id/imageProfile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:onClick="odpriFB" />
+                android:layout_gravity="center" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

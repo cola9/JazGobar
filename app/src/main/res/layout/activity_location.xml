@@ -14,8 +14,9 @@
         android:id="@+id/imageViewMain"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:adjustViewBounds="true"
         android:cropToPadding="false"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/myColorLine1"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -230,7 +231,7 @@
         />
 
     <TextView
-        android:id="@+id/weather_vlaznost"
+        android:id="@+id/weather_vlaznostTemp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
@@ -249,15 +250,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
+        android:singleLine="true"
         android:text="TextView"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/guideline13"
         app:layout_constraintRight_toLeftOf="@+id/floatingActionButton"
-        app:layout_constraintTop_toBottomOf="@+id/weather_vlaznost"
-        android:singleLine="true"/>
+        app:layout_constraintTop_toBottomOf="@+id/weather_vlaznostTemp" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
