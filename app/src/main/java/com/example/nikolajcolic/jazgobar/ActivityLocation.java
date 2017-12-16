@@ -299,7 +299,7 @@ public class ActivityLocation extends AppCompatActivity {
 
             //with this form you obtain the bitmap (in this example set this bitmap in image view)
             ivSlika.setImageBitmap(magicalCamera.getPhoto());
-
+            //ivSlika.setRotation((float) 90.0);
             //if you need save your bitmap in device use this method and return the path if you need this
             //You need to send, the bitmap picture, the photo name, the directory name, the picture type, and autoincrement photo name if           //you need this send true, else you have the posibility or realize your standard name for your pictures.
             String path = magicalCamera.savePhotoInMemoryDevice(magicalCamera.getPhoto(), "myPhotoName", MagicalCamera.JPEG, true);

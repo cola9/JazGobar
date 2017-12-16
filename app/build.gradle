@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
     defaultConfig {
         applicationId "com.example.nikolajcolic.jazgobar"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -31,9 +31,9 @@ dependencies {
     //Za pridobivanje pravic https://github.com/Karumi/Dexter
     //https://github.com/google/flexbox-layout
     compile files('libs/commons-validator-1.6.jar')
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:26'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
-    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:design:26+'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.frosquivel:magicalcamera:5.0.3'
     compile 'com.squareup.picasso:picasso:2.5.2'

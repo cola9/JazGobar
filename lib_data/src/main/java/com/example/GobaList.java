@@ -11,10 +11,31 @@ public class GobaList {
 
     public GobaList() {
         list=new ArrayList<>();
-        list.add(new Goba("gozdni kukmak"));
-        list.add(new Goba("zeleni mesnatovec"));
-        list.add(new Goba("ovčji mesnatovec"));
-        list.add(new Goba("citronasta mušnica"));
+        list.add(new Goba("mušnica"));
+        list.add(new Goba("lisička"));
+        list.add(new Goba("golobica"));
+        list.add(new Goba("rumeni ježek"));
+        list.add(new Goba("jurček"));
+        list.add(new Goba("betičasta prašnica"));
+        list.add(new Goba("goban"));
+        list.add(new Goba("trhlenka"));
+        list.add(new Goba("žveplenjača"));
+        list.add(new Goba("trdokožnica"));
+        list.add(new Goba("zaviti širokolistar"));
+        list.add(new Goba("orjaški dežnik"));
+        list.add(new Goba("ledenka"));
+        list.add(new Goba("slivarica"));
+        list.add(new Goba("vijoličasta bledivka"));
+        list.add(new Goba("poprovka"));
+        list.add(new Goba("brezov ded"));
+        list.add(new Goba("žametni podvihanec"));
+        list.add(new Goba("podvihanka"));
+        list.add(new Goba("brezova odpadljivka"));
+        list.add(new Goba("mlečnica"));
+        list.add(new Goba("ciganček"));
+        list.add(new Goba("smrekova kresilača"));
+        list.add(new Goba("pisana ploskocevka"));
+        list.add(new Goba("polstenec"));
     }
 
     @Override

@@ -107,6 +107,41 @@ public class ActivityZacetna extends AppCompatActivity {
                 // User chose the "Settings" item, show the app settings UI...
                 startActivity(new Intent(this,ActivitySporneSlikeGob.class));
                 return true;
+            case R.id.action_odjava:
+                // User chose the "Settings" item, show the app settings UI...
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                LoginManager.getInstance().logOut();
+                                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                SharedPreferences.Editor editor =  sharedPreferences.edit();
+                                editor.putString("token",null);
+                                editor.putString("user_id",null);
+                                editor.putString("et_score",null);
+                                editor.putLong("expires",0);
+                                editor.putBoolean("basicLogin",false);
+                                editor.commit();
+                                app.Odjava();
+                                Intent i = new Intent(getBaseContext(), ActivityLogin.class);
+                                startActivity(i);
+                                finish();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                        // mRecyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                };
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(ActivityZacetna.this);
+                builder.setTitle("Odjava");
+                builder.setMessage("Ali se res želiš odjaviti?").setPositiveButton("Da", dialogClickListener)
+                        .setNegativeButton("Ne", dialogClickListener)
+                ;
+                builder.show();
+                return true;
             case R.id.action_sort:
                 //app.sortUpdate();
                 app.sortChangeAndUpdate();
