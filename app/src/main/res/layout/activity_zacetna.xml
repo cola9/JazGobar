@@ -22,8 +22,8 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_add_black_48dp"
         tools:layout_editor_absoluteX="308dp"
         tools:layout_editor_absoluteY="501dp" />
 
@@ -43,7 +43,8 @@
                 android:id="@+id/imageProfile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:visibility="gone" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

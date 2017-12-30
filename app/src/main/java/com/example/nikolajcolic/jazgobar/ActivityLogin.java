@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -307,7 +308,7 @@ public class ActivityLogin extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ActivityLogin.this,"Dobivam podatke...","Please wait...",true,true);
+                loading = ProgressDialog.show(ActivityLogin.this,"Dobivam podatke...","Prosim počakaj...",true,true);
             }
 
             @Override

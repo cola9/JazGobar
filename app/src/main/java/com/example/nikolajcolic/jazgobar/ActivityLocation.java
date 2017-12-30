@@ -119,9 +119,14 @@ public class ActivityLocation extends AppCompatActivity {
     CircleImageView circleImageView;
     ShareDialog shareDialog;;
     CallbackManager callbackManager;
+    Boolean defaultSlika=false;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.location_menu, menu);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean basic = sp.getBoolean("basicLogin",false);
+        if(!basic && !defaultSlika){
+            getMenuInflater().inflate(R.menu.location_menu, menu);
+        }
         return true;
     }
 
@@ -332,9 +337,10 @@ public class ActivityLocation extends AppCompatActivity {
                 }
                 setGobaViewList(app.getAll().getDefultGobaLists(app.getDefultTags(), l));
                 update(l);
-                Toast.makeText(this, "The photo is save in device, please check this path: " + path, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "The photo is save in device, please check this path: " + path, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Sorry your photo dont write in devide, please contact with fabian7593@gmail and say this error", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Sorry your photo dont write in devide, please contact with fabian7593@gmail and say this error", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }
@@ -347,7 +353,9 @@ public class ActivityLocation extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //to sm moral zakomentirati da dela share
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         startService(new Intent(app, GPSTracker.class));//start service
 
         Bundle extras = getIntent().getExtras();
@@ -374,6 +382,7 @@ public class ActivityLocation extends AppCompatActivity {
                 }else{
                     asyncTask.execute(String.valueOf(app.getLastLocation().getLatitude()), String.valueOf(app.getLastLocation().getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
                 }
+                defaultSlika=true;
                 getVreme(getVremeUrl);
                 stateNew = true;
                 addNewLocation();
@@ -515,7 +524,7 @@ public class ActivityLocation extends AppCompatActivity {
         File file = new File(this.getExternalFilesDir(DATA_MAP), ""+ FILE_NAME);
         //selectedFilePath = "/storage/sdcard/Android/data/com.example.nikolajcolic.jazgobar/files/jazgobardatamap/jazgobar.json";
         selectedFilePath = file.getAbsolutePath();
-        dialog = ProgressDialog.show(ActivityLocation.this, "", "Uploading File...", true);
+        dialog = ProgressDialog.show(ActivityLocation.this, "", "Nalaganje datoteke...", true);
 
         new Thread(new Runnable() {
             @Override
@@ -581,7 +590,7 @@ public class ActivityLocation extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ActivityLocation.this, "Uploading Image", "Please wait...",true,true);
+                loading = ProgressDialog.show(ActivityLocation.this, "Nalaganje slike", "Prosim počakaj...",true,true);
             }
 
             @Override
@@ -677,7 +686,9 @@ public class ActivityLocation extends AppCompatActivity {
 
     public void update(Lokacija l) {
         tvLatLag.setText(l.getX()+" "+l.getY());
-        edName.setText(l.getIme());
+        if(!l.getIme().equals("Poimenuj ")){
+            edName.setText(l.getIme());
+        }
         tvDatum.setText(Util.dt.format(new Date(l.getDatum())));
         //ivSlika
         flexBoxLayout.removeAllViews();
@@ -733,6 +744,7 @@ public class ActivityLocation extends AppCompatActivity {
             }else{
                 ivSlika.setImageResource(R.drawable.goba);
             }
+            defaultSlika=true;
         }
         //weather
         vlaznost_field.setText("Vlažnost:" + l.getVlaznost()+" temp: "+l.getTemp());

@@ -129,7 +129,7 @@ public class ActivityMySettings extends AppCompatPreferenceActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ActivityMySettings.this,"Dobivam podatke...","Please wait...",true,true);
+                loading = ProgressDialog.show(ActivityMySettings.this,"Dobivam podatke...","Prosim počakaj...",true,true);
             }
 
             @Override

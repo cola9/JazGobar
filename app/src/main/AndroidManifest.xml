@@ -18,7 +18,7 @@
     <application
         android:name=".ApplicationMy"
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/jaz_gobar_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -68,7 +68,7 @@
             android:name=".ActivityLogin"
             android:theme="@style/AppTheme.Dark">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+               <!-- <action android:name="android.intent.action.MAIN" />-->
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -92,7 +92,14 @@
         <activity android:name=".ActivitySlikeGob" />
         <activity android:name=".ActivitySporneSlikeGob" />
         <activity android:name=".ActivityGalerija" />
-        <activity android:name=".ActivitySlika"></activity>
+        <activity android:name=".ActivitySlika" />
+        <activity android:name=".ActivityWelcome" android:theme="@style/AppTheme.Dark">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>

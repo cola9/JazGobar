@@ -159,7 +159,7 @@ public class ActivityZacetna extends AppCompatActivity {
         Log.i("ActivityZacetna","MessageEventUpdateLocation ");
         mLocation = event.getM();
         mAdapter.setLastLocation(mLocation);
-        fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+        fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
         podatki();
     }
     @Override
