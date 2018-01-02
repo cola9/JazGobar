@@ -3,6 +3,7 @@ package com.example.nikolajcolic.jazgobar;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,12 +20,15 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,7 +58,12 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import bolts.Bolts;
 
 public class ActivityZacetna extends AppCompatActivity {
     private static final String TAG = ActivityZacetna.class.getSimpleName();
@@ -70,6 +79,9 @@ public class ActivityZacetna extends AppCompatActivity {
     private String id_user="nikolaj.colic@student.um.si";
     Location mLocation;
     ProfilePictureView imageProfile;
+    Double temp;
+    Integer vlaznost, pritisk;
+    double DE[];
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_menu, menu);
@@ -161,12 +173,42 @@ public class ActivityZacetna extends AppCompatActivity {
         mAdapter.setLastLocation(mLocation);
         fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
         podatki();
+        WeatherFunction.placeIdTask asyncTask =new WeatherFunction.placeIdTask(new WeatherFunction.AsyncResponse() {
+            public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String weather_iconText, String sun_rise) {
+
+                vlaznost = Integer.parseInt(weather_humidity.replaceAll("\\D+",""));
+                pritisk = Integer.parseInt(weather_pressure.replaceAll("\\D+",""));
+                Matcher m = Pattern.compile("(?!=\\d\\.\\d\\.)([\\d.]+)").matcher(weather_temperature);
+                m.find();
+                temp = Double.parseDouble(m.group(1));
+                if((temp>=DE[0] && temp<=DE[1]) && (pritisk>=DE[2] && pritisk<=DE[3]) && (vlaznost>=DE[4] && vlaznost<=DE[5])){
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(getApplicationContext())
+                                    .setSmallIcon(R.drawable.jazgobar_small_icon)
+                                    .setContentTitle("Nove gobe")
+                                    .setContentText("Možnost pojavitve novih gob glede na trenutne vremenske razmere");
+                    mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
+                    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(ActivityZacetna.this);
+                    notificationManagerCompat.notify(1,mBuilder.build());
+                }
+            }
+        });
+
+        if (mLocation!=null){
+            asyncTask.execute(String.valueOf(mLocation.getLatitude()), String.valueOf(mLocation.getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
+        }else{
+            asyncTask.execute(String.valueOf(app.getLastLocation().getLatitude()), String.valueOf(app.getLastLocation().getLongitude())); //  asyncTask.execute("Latitude", "Longitude")
+        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (ApplicationMy)getApplication();//dodano
         setContentView(R.layout.activity_zacetna);
+        //ea
+        EvolucijskiAlgoritem ea = new EvolucijskiAlgoritem();
+        DE = ea.execute(10000);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.myrecycleview);
         imageProfile = (ProfilePictureView) findViewById(R.id.imageProfile);
         // use this setting to improve performance if you know that changes
@@ -609,7 +651,7 @@ public class ActivityZacetna extends AppCompatActivity {
         });
     }
     //longclick izbira
-    @Override
+    /*@Override
     public boolean onContextItemSelected(MenuItem item) {
         int clickedItemPosition = item.getOrder();
         // do something!
@@ -637,7 +679,7 @@ public class ActivityZacetna extends AppCompatActivity {
                 mAdapter.notifyItemRemoved(clickedItemPosition);
                 mAdapter.notifyItemRangeChanged(clickedItemPosition, app.getLokacijaAll().size());
                 mAdapter.notifyDataSetChanged();
-                app.save();*/
+                app.save();
                 index = clickedItemPosition;
                 createAndShowAlertDialog();
             }
@@ -719,6 +761,12 @@ public class ActivityZacetna extends AppCompatActivity {
             imageProfile.setVisibility(View.GONE);
         }
         podatki();
+        //vlaznost=53;
+        //temp=19.9;
+        //pritisk=1009;
+        Boolean koncano=false;
+
+
 
     }
     public void podatki(){
