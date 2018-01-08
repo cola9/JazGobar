@@ -186,8 +186,11 @@ public class ActivityZacetna extends AppCompatActivity {
                 Matcher m = Pattern.compile("(?!=\\d\\.\\d\\.)([\\d.]+)").matcher(weather_temperature);
                 m.find();
                 temp = Double.parseDouble(m.group(1));
+<<<<<<< HEAD
                 //vlaznost=53;
                 //pritisk=1009;
+=======
+>>>>>>> 0fedc7f69de63a07d43e5b14ce0ccfd424d427e6
                 if((temp>=DE[0] && temp<=DE[1]) && (pritisk>=DE[2] && pritisk<=DE[3]) && (vlaznost>=DE[4] && vlaznost<=DE[5])){
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(getApplicationContext())
