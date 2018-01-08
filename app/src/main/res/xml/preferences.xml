@@ -60,7 +60,6 @@
             android:defaultValue=""
             android:key="et_score"
             android:title="Score"/>
-
     </PreferenceCategory>
 
 

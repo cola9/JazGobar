@@ -34,7 +34,8 @@
             android:name=".ActivityZacetna"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
             <intent-filter>
 
                 <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -66,9 +67,11 @@
         <activity android:name=".ActivityMySettings" />
         <activity
             android:name=".ActivityLogin"
-            android:theme="@style/AppTheme.Dark">
+            android:theme="@style/AppTheme.Dark"
+            android:screenOrientation="portrait">
             <intent-filter>
-               <!-- <action android:name="android.intent.action.MAIN" />-->
+
+                <!-- <action android:name="android.intent.action.MAIN" /> -->
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -93,13 +96,19 @@
         <activity android:name=".ActivitySporneSlikeGob" />
         <activity android:name=".ActivityGalerija" />
         <activity android:name=".ActivitySlika" />
-        <activity android:name=".ActivityWelcome" android:theme="@style/AppTheme.Dark">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        <activity
+            android:name=".ActivityWelcome"
+            android:theme="@style/AppTheme.Dark">
         </activity>
+        <activity android:name=".ActivityStrojnoUcenje" />
+        <activity android:name=".ActivityIntro"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter></activity>
     </application>
 
 </manifest>

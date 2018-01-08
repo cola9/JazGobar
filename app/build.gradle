@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        jumboMode true
+    }
 }
 repositories {
     mavenCentral()
@@ -47,4 +50,5 @@ dependencies {
     compile 'net.gotev:uploadservice:2.1'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     testCompile 'junit:junit:4.12'
+    compile files('libs/wekaSTRIPPED.jar')
 }

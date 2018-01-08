@@ -6,6 +6,7 @@
     <string name="menu_share">Share</string>
     <string name="menu_delete">Delete</string>
     <string name="action_settings">Nastavitve</string>
+    <string name="action_strojno_ucenje">Strojno Učenje</string>
     <string name="action_sort">Uredi</string>
     <string name="action_share">Deli</string>
     <string name="action_odjava">Odjava</string>
@@ -15,4 +16,56 @@
     <string name="permission_must">Za pravilno delovanje aplikacije so potrebne vse pravice. Dovoljenje za lokacijo je potrebno za pridobivanje lokacije odpadkov, dovoljenje dostopa do slik in shranjevanje je potrebno za dodajanje novih lokacij (slikanje).</string>
     <string name="facebook_app_id">216844202163974</string>
     <string name="user_id" />
+    <string-array name="ArrayGobe">
+        <item>mušnica</item>
+        <item>lisička</item>
+        <item>golobica</item>
+        <item>ježek</item>
+        <item>jurček</item>
+        <item>prašnica</item>
+        <item>goban</item>
+        <item>trhlenka</item>
+        <item>žveplenjača</item>
+        <item>trdokožnica</item>
+        <item>širokolistar</item>
+        <item>dežnik</item>
+        <item>ledenka</item>
+        <item>slivarica</item>
+        <item>bledivka</item>
+        <item>poprovka</item>
+        <item>podvihanec</item>
+        <item>podvihanka</item>
+        <item>odpadljivka</item>
+        <item>mlečnica</item>
+        <item>ciganček</item>
+        <item>kresilača</item>
+        <item>ploskocevka</item>
+        <item>polstenec</item>
+    </string-array>
+    <string-array name="ArrayLetniCasNabiranja">
+        <item>spomlad-zima</item>
+        <item>poletje-jesen</item>
+        <item>poletje-zima</item>
+        <item>poletje-zima</item>
+        <item>jesen</item>
+        <item>spomlad-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>spomlad-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>poletje-jesen</item>
+        <item>celoLeto</item>
+        <item>celoLeto</item>
+        <item>poletje-jesen</item>
+    </string-array>
 </resources>

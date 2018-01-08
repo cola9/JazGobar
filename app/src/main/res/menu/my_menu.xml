@@ -27,6 +27,9 @@
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
+    <item android:id="@+id/action_strojno_ucenje"
+        android:title="@string/action_strojno_ucenje"
+        app:showAsAction="never"/>
     <item android:id="@+id/action_odjava"
         android:title="@string/action_odjava"
         app:showAsAction="never"/>
